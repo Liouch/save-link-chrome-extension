@@ -1,0 +1,6 @@
+{
+  "name": "Save link extension",
+  "description": "Save link extension using json file",
+  "version": "1.0",
+  "manifest_version": 3
+}
