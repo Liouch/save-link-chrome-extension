@@ -1,0 +1,22 @@
+#root {
+  width: 300px;
+}
+.title-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 1rem;
+}
+.bookmark-container,
+.bookmark-element-info {
+  display: flex;
+  align-items: center;
+}
+.bookmark-container {
+  justify-content: space-between;
+  padding: 1rem;
+}
+.bookmark-element-info {
+  gap: 0.5rem;
+}
