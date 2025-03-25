@@ -1,8 +1,13 @@
+import {
+  getCurrentTab,
+  persistedDatabaseURL,
+  persistedAPIKey,
+} from './utils.js';
+
 const root = document.getElementById('root');
 const favIconFallback = '/images/icon.png';
 
-async function getBookmarks() {
-}
+async function handleAddBookmark(tab: chrome.tabs.Tab) {}
 
 async function renderCurrentTabBookmark() {
   const bookmarkElement = document.getElementById('bookmark-element-info');
@@ -40,13 +45,22 @@ async function renderCurrentTabBookmark() {
   }
 }
 
-async function handleSubmit({ databaseURL, apiKey }) {
+async function handleSubmit({
+  databaseURL,
+  apiKey,
+}: {
+  databaseURL: string;
+  apiKey: string;
+}) {
   await chrome.storage.local.set({ url: databaseURL, apiKey });
   window.location.reload();
 }
 
 function renderConfigForm(
-  { databaseURL, apiKey } = { databaseURL: '', apiKey: '' }
+  { databaseURL, apiKey }: { databaseURL: string; apiKey: string } = {
+    databaseURL: '',
+    apiKey: '',
+  }
 ) {
   const formElement = document.createElement('form');
   formElement.id = 'config-form';
@@ -89,6 +103,7 @@ function renderSettingsSection(
   let settingsButtonText = 'View Settings';
 
   settingsButton.textContent = settingsButtonText;
+
   settingsButton.onclick = () => {
     const formElement = document.getElementById('config-form');
     if (formElement) {
