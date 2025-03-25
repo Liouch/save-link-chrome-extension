@@ -16,16 +16,23 @@ export function getCurrentTab() {
         return tab;
     });
 }
-export function persistedDatabaseURL() {
+// Methods to persist and remove data in the local storage
+export function getPersistedDatabaseURL() {
     return __awaiter(this, void 0, void 0, function* () {
         const { url } = yield chrome.storage.local.get(['url']);
         return url;
     });
 }
-export function persistedAPIKey() {
+export function getPersistedAPIKey() {
     return __awaiter(this, void 0, void 0, function* () {
         const { apiKey } = yield chrome.storage.local.get(['apiKey']);
         return apiKey;
+    });
+}
+export function getPersistedBookmarks() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { bookmarks } = yield chrome.storage.local.get(['bookmarks']);
+        return bookmarks;
     });
 }
 export function removePersistedDatabaseURL() {
@@ -38,8 +45,28 @@ export function removePersistedApiKey() {
         yield chrome.storage.local.remove(['apiKey']);
     });
 }
+export function removePersistedBookmars() {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield chrome.storage.local.remove(['bookmarks']);
+    });
+}
 export function removePersistedStorage() {
     return __awaiter(this, void 0, void 0, function* () {
         yield chrome.storage.local.clear();
+    });
+}
+export function setPersistedDatabaseURL(databaseURL) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield chrome.storage.local.set({ url: databaseURL });
+    });
+}
+export function setPersistedApiKey(apiKey) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield chrome.storage.local.set({ apiKey });
+    });
+}
+export function setPersistedBookmarks(bookmarks) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield chrome.storage.local.set({ bookmarks });
     });
 }

@@ -7,8 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { getCurrentTab, persistedDatabaseURL, persistedAPIKey, } from './utils.js';
-const root = document.getElementById('root');
+import { getCurrentTab, getPersistedDatabaseURL, getPersistedAPIKey, } from './utils.js';
 const favIconFallback = '/images/icon.png';
 function handleAddBookmark(tab) {
     return __awaiter(this, void 0, void 0, function* () { });
@@ -113,8 +112,8 @@ function renderErrorMessage() {
 }
 document.addEventListener('DOMContentLoaded', () => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
-    const databaseURL = (_a = (yield persistedDatabaseURL())) !== null && _a !== void 0 ? _a : '';
-    const apiKey = (_b = (yield persistedAPIKey())) !== null && _b !== void 0 ? _b : '';
+    const databaseURL = (_a = (yield getPersistedDatabaseURL())) !== null && _a !== void 0 ? _a : '';
+    const apiKey = (_b = (yield getPersistedAPIKey())) !== null && _b !== void 0 ? _b : '';
     if (!Boolean(databaseURL)) {
         renderErrorMessage();
     }

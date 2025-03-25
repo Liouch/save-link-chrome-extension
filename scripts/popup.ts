@@ -1,10 +1,9 @@
 import {
   getCurrentTab,
-  persistedDatabaseURL,
-  persistedAPIKey,
+  getPersistedDatabaseURL,
+  getPersistedAPIKey,
 } from './utils.js';
 
-const root = document.getElementById('root');
 const favIconFallback = '/images/icon.png';
 
 async function handleAddBookmark(tab: chrome.tabs.Tab) {}
@@ -129,8 +128,8 @@ function renderErrorMessage() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const databaseURL = (await persistedDatabaseURL()) ?? '';
-  const apiKey = (await persistedAPIKey()) ?? '';
+  const databaseURL = (await getPersistedDatabaseURL()) ?? '';
+  const apiKey = (await getPersistedAPIKey()) ?? '';
 
   if (!Boolean(databaseURL)) {
     renderErrorMessage();
