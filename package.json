@@ -1,4 +1,14 @@
 {
+  "name": "save_link_chrome_extension",
+  "description": "Save link to JSON file stored in jsonbin.io using Chrome Extension",
+  "private": false,
+  "version": "1.0.0",
+  "author": {
+    "name": "Liou Wang",
+    "email": "liou.wang.it@gmail.com",
+    "url": "http://github.com/liouch"
+  },
+  "license": "MIT",
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w"
