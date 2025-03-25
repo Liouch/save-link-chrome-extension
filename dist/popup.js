@@ -7,11 +7,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { getCurrentTab, getPersistedDatabaseURL, getPersistedAPIKey, } from './utils.js';
+import { getCurrentTab, getPersistedDatabaseURL, getPersistedAPIKey, handleAddBookmark, getBookmarks, getPersistedBookmarks, setPersistedBookmarks, handleRemoveBookmark, } from './utils.js';
 const favIconFallback = '/images/icon.png';
-function handleAddBookmark(tab) {
-    return __awaiter(this, void 0, void 0, function* () { });
-}
 function renderCurrentTabBookmark() {
     return __awaiter(this, void 0, void 0, function* () {
         var _a, _b;
@@ -27,10 +24,20 @@ function renderCurrentTabBookmark() {
         bookmarkFavIconElement.height = 16;
         // Set the title of the current tab
         bookmarkTitleSpan.textContent = (_b = tab === null || tab === void 0 ? void 0 : tab.title) !== null && _b !== void 0 ? _b : null;
+        console.log(tab);
+        // Check if url is already bookmarked
+        const bookmarks = yield getPersistedBookmarks();
+        const isBookmarked = bookmarks.record.bookmarks.some((bookmark) => bookmark.url === (tab === null || tab === void 0 ? void 0 : tab.url));
         // Set the action button of the current tab
-        bookmarkActionButon.textContent = 'Add';
+        bookmarkActionButon.textContent = isBookmarked ? 'Remove' : 'Add';
         bookmarkActionButon.onclick = () => __awaiter(this, void 0, void 0, function* () {
-            yield handleAddBookmark(tab);
+            bookmarkActionButon.textContent = 'Loading...';
+            if (isBookmarked) {
+                yield handleRemoveBookmark(tab);
+            }
+            else {
+                yield handleAddBookmark(tab);
+            }
         });
         if (bookmarkElement) {
             bookmarkElement.appendChild(bookmarkFavIconElement);
@@ -114,10 +121,15 @@ document.addEventListener('DOMContentLoaded', () => __awaiter(void 0, void 0, vo
     var _a, _b;
     const databaseURL = (_a = (yield getPersistedDatabaseURL())) !== null && _a !== void 0 ? _a : '';
     const apiKey = (_b = (yield getPersistedAPIKey())) !== null && _b !== void 0 ? _b : '';
+    const bookmarks = yield getPersistedBookmarks();
     if (!Boolean(databaseURL)) {
         renderErrorMessage();
     }
     else {
+        if (!bookmarks) {
+            const bookmarks = yield getBookmarks();
+            setPersistedBookmarks(bookmarks);
+        }
         yield renderCurrentTabBookmark();
     }
     renderSettingsSection({ databaseURL, apiKey });

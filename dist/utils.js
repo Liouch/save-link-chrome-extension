@@ -70,3 +70,80 @@ export function setPersistedBookmarks(bookmarks) {
         yield chrome.storage.local.set({ bookmarks });
     });
 }
+// Method to fetch bookmarks from the API
+export function getBookmarks() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const response = yield fetch('https://api.jsonbin.io/v3/b/67e14d988561e97a50f1d9b1', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Access-Key': '$2a$10$0kgq1M4B.h1J1LX6EUzhjOBRT.6tkG1CvIWBiEmHhPNhuWNRSrhum', // TODO: Use chrome storage to store the key
+            },
+        });
+        if (!response.ok) {
+            const error = yield response.json();
+            throw new Error(response.status + error.message);
+        }
+        const data = yield response.json();
+        return data;
+    });
+}
+// Methods to add and remove bookmarks
+export function handleAddBookmark(tab) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const url = yield getPersistedDatabaseURL();
+        const apiKey = yield getPersistedAPIKey();
+        const bookmarks = yield getPersistedBookmarks();
+        const newBookmark = {
+            id: bookmarks.record.bookmarks.length + 1,
+            title: tab.title,
+            url: tab.url,
+            tags: [],
+            createdAt: new Date().toISOString(),
+        };
+        const body = JSON.stringify({
+            bookmarks: [...bookmarks.record.bookmarks, newBookmark],
+        });
+        const response = yield fetch(yield getPersistedDatabaseURL(), {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Access-Key': yield getPersistedAPIKey(),
+            },
+            body,
+        });
+        if (!response.ok) {
+            const error = yield response.json();
+            throw new Error(response.status + error.message);
+        }
+        const data = yield response.json();
+        yield setPersistedBookmarks(data);
+        window.location.reload();
+    });
+}
+export function handleRemoveBookmark(tab) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const url = yield getPersistedDatabaseURL();
+        const apiKey = yield getPersistedAPIKey();
+        const bookmarks = yield getPersistedBookmarks();
+        const filteredBookmarks = bookmarks.record.bookmarks.filter((bookmark) => bookmark.url !== tab.url);
+        const body = JSON.stringify({
+            bookmarks: filteredBookmarks,
+        });
+        const response = yield fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Access-Key': apiKey,
+            },
+            body,
+        });
+        if (!response.ok) {
+            const error = yield response.json();
+            throw new Error(response.status + error.message);
+        }
+        const data = yield response.json();
+        yield setPersistedBookmarks(data);
+        window.location.reload();
+    });
+}

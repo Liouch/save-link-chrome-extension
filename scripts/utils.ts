@@ -49,3 +49,88 @@ export async function setPersistedApiKey(apiKey: string) {
 export async function setPersistedBookmarks(bookmarks: any) {
   await chrome.storage.local.set({ bookmarks });
 }
+
+// Method to fetch bookmarks from the API
+export async function getBookmarks() {
+  const response = await fetch(
+    'https://api.jsonbin.io/v3/b/67e14d988561e97a50f1d9b1',
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Access-Key':
+          '$2a$10$0kgq1M4B.h1J1LX6EUzhjOBRT.6tkG1CvIWBiEmHhPNhuWNRSrhum', // TODO: Use chrome storage to store the key
+      },
+    }
+  );
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(response.status + error.message);
+  }
+  const data = await response.json();
+  return data;
+}
+
+// Methods to add and remove bookmarks
+export async function handleAddBookmark(tab: chrome.tabs.Tab) {
+  const url = await getPersistedDatabaseURL();
+  const apiKey = await getPersistedAPIKey();
+  const bookmarks = await getPersistedBookmarks();
+  const newBookmark = {
+    id: bookmarks.record.bookmarks.length + 1,
+    title: tab.title,
+    url: tab.url,
+    tags: [],
+    createdAt: new Date().toISOString(),
+  };
+
+  const body = JSON.stringify({
+    bookmarks: [...bookmarks.record.bookmarks, newBookmark],
+  });
+
+  const response = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Access-Key': apiKey,
+    },
+    body,
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(response.status + error.message);
+  }
+  const data = await response.json();
+  await setPersistedBookmarks(data);
+  window.location.reload();
+}
+
+export async function handleRemoveBookmark(tab: chrome.tabs.Tab) {
+  const url = await getPersistedDatabaseURL();
+  const apiKey = await getPersistedAPIKey();
+  const bookmarks = await getPersistedBookmarks();
+
+  const filteredBookmarks = bookmarks.record.bookmarks.filter(
+    (bookmark: { url: string }) => bookmark.url !== tab.url
+  );
+
+  const body = JSON.stringify({
+    bookmarks: filteredBookmarks,
+  });
+
+  const response = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Access-Key': apiKey,
+    },
+    body,
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(response.status + error.message);
+  }
+  const data = await response.json();
+  await setPersistedBookmarks(data);
+  window.location.reload();
+}

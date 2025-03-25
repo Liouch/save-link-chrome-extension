@@ -2,11 +2,14 @@ import {
   getCurrentTab,
   getPersistedDatabaseURL,
   getPersistedAPIKey,
+  handleAddBookmark,
+  getBookmarks,
+  getPersistedBookmarks,
+  setPersistedBookmarks,
+  handleRemoveBookmark,
 } from './utils.js';
 
 const favIconFallback = '/images/icon.png';
-
-async function handleAddBookmark(tab: chrome.tabs.Tab) {}
 
 async function renderCurrentTabBookmark() {
   const bookmarkElement = document.getElementById('bookmark-element-info');
@@ -27,11 +30,23 @@ async function renderCurrentTabBookmark() {
   // Set the title of the current tab
   bookmarkTitleSpan.textContent = tab?.title ?? null;
 
+  console.log(tab);
+  // Check if url is already bookmarked
+  const bookmarks = await getPersistedBookmarks();
+  const isBookmarked = bookmarks.record.bookmarks.some(
+    (bookmark: { url: string }) => bookmark.url === tab?.url
+  );
+
   // Set the action button of the current tab
-  bookmarkActionButon.textContent = 'Add';
+  bookmarkActionButon.textContent = isBookmarked ? 'Remove' : 'Add';
 
   bookmarkActionButon.onclick = async () => {
-    await handleAddBookmark(tab);
+    bookmarkActionButon.textContent = 'Adding...';
+    if (isBookmarked) {
+      await handleRemoveBookmark(tab);
+    } else {
+      await handleAddBookmark(tab);
+    }
   };
 
   if (bookmarkElement) {
@@ -130,10 +145,16 @@ function renderErrorMessage() {
 document.addEventListener('DOMContentLoaded', async () => {
   const databaseURL = (await getPersistedDatabaseURL()) ?? '';
   const apiKey = (await getPersistedAPIKey()) ?? '';
+  const bookmarks = await getPersistedBookmarks();
 
   if (!Boolean(databaseURL)) {
     renderErrorMessage();
   } else {
+    if (!bookmarks) {
+      const bookmarks = await getBookmarks();
+
+      setPersistedBookmarks(bookmarks);
+    }
     await renderCurrentTabBookmark();
   }
   renderSettingsSection({ databaseURL, apiKey });
