@@ -3,19 +3,46 @@
     <title>Bookmark extension</title>
     <link rel="stylesheet" href="globalStyles.css" />
     <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8" />
   </head>
   <body>
     <div id="root">
-      <div id="title" class="title-container">
-        <h1>Bookmark Extension</h1>
-      </div>
-      <div id="bookmark-container" class="bookmark-container">
-        <div id="bookmark-element-info" class="bookmark-element-info"></div>
-        <div id="bookmark-element-action" class="bookmark-element-action"></div>
-      </div>
-      <div id="config-container" class="config-container">
-        <h2>Settings</h2>
-      </div>
+      <header>
+        <div id="title" class="title-container">
+          <h1>Bookmark Extension</h1>
+        </div>
+      </header>
+      <main>
+        <div id="bookmark-container" class="bookmark-container">
+          <div id="bookmark-element-info" class="bookmark-element-info"></div>
+          <div
+            id="bookmark-element-action"
+            class="bookmark-element-action"
+          ></div>
+        </div>
+        <div id="config-container" class="config-container">
+          <h2>Settings</h2>
+        </div>
+      </main>
+      <footer>
+        <div id="footer-container" class="footer-container">
+          <p>
+            Made with ❤️ by
+            <a
+              href="https://www.linkedin.com/in/liou-wang-/"
+              target="_blank"
+              rel="noopener noreferrer"
+              >@Liouch</a
+            >. Check out the source code on
+            <a
+              href="https://github.com/Liouch/save-link-chrome-extension"
+              rel="noopener noreferrer"
+              target="_blank"
+              >GitHub</a
+            >
+          </p>
+        </div>
+      </footer>
     </div>
     <script src="dist/utils.js" type="module"></script>
     <script src="dist/popup.js" type="module"></script>

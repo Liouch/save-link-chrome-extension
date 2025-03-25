@@ -31,7 +31,7 @@ function renderCurrentTabBookmark() {
         // Set the action button of the current tab
         bookmarkActionButon.textContent = isBookmarked ? 'Remove' : 'Add';
         bookmarkActionButon.onclick = () => __awaiter(this, void 0, void 0, function* () {
-            bookmarkActionButon.textContent = 'Loading...';
+            bookmarkActionButon.textContent = 'Adding...';
             if (isBookmarked) {
                 yield handleRemoveBookmark(tab);
             }

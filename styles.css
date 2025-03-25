@@ -33,3 +33,7 @@
   flex-direction: column;
   gap: 0.5rem;
 }
+.footer-container {
+  display: flex;
+  padding: 1rem;
+}
