@@ -5,8 +5,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #ffbeb7;
   padding: 1rem;
+}
+.title-container h1 {
+  color: #e84443;
 }
 .bookmark-container,
 .bookmark-element-info {
@@ -16,9 +19,12 @@
 .bookmark-container {
   justify-content: space-between;
   padding: 1rem;
+  border-bottom: 1px solid #ffbeb7;
+  gap: 0.5rem;
 }
 .bookmark-element-info {
   gap: 0.5rem;
+  font-size: larger;
 }
 .config-container {
   padding: 1rem;
@@ -27,13 +33,32 @@
   justify-content: center;
   gap: 0.5rem;
 }
+.config-container h2 {
+  color: #e84443;
+}
 
 .config-form {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  margin-top: 1rem;
 }
 .footer-container {
   display: flex;
   padding: 1rem;
+}
+
+button {
+  cursor: pointer;
+  background-color: #e84443;
+  color: white;
+  border: none;
+  box-shadow: 5px 5px 0px 1px rgba(255, 190, 183, 1);
+  font-size: larger;
+  font-weight: bold;
+}
+
+button:active {
+  background-color: rgba(255, 190, 183, 1);
+  box-shadow: 5px 5px 0px 1px #e84443;
 }

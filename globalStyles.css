@@ -12,10 +12,13 @@
 * {
   margin: 0;
 }
-
+html {
+  height: fit-content;
+}
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  height: fit-content;
 }
 
 img,
