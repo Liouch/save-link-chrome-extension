@@ -10,11 +10,14 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w"
+    "build": "rollup -c",
+    "dev": "rollup -c --watch"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.310",
+    "rollup": "^4.37.0",
+    "rollup-plugin-copy": "^3.5.0",
+    "rollup-plugin-typescript2": "^0.36.0",
     "typescript": "^5.8.2"
   }
 }
