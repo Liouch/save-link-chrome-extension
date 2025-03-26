@@ -171,6 +171,16 @@ var save_link_chrome_extension = (function (exports) {
         });
     }
 
+    function getCurrentTab() {
+        return __awaiter(this, void 0, void 0, function* () {
+            let [tab] = yield chrome.tabs.query({
+                active: true,
+                lastFocusedWindow: true,
+            });
+            return tab;
+        });
+    }
+
     const favIconFallback = '/images/icon48.png';
     function renderCurrentTabBookmark() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -227,9 +237,15 @@ var save_link_chrome_extension = (function (exports) {
         const formElement = document.createElement('form');
         formElement.id = 'config-form';
         formElement.className = 'config-form';
+        const databaseURLlabel = document.createElement('label');
+        const apiKeyLabel = document.createElement('label');
         const databaseURLInput = document.createElement('input');
         const apiKeyInput = document.createElement('input');
         const submitButton = document.createElement('button');
+        databaseURLlabel.textContent = 'Database URL';
+        apiKeyLabel.textContent = 'API Key';
+        databaseURLlabel.htmlFor = 'database-url-input';
+        apiKeyLabel.htmlFor = 'api-key-input';
         databaseURLInput.id = 'database-url-input';
         databaseURLInput.name = 'database-url-input';
         databaseURLInput.placeholder = 'Database URL';
@@ -247,7 +263,9 @@ var save_link_chrome_extension = (function (exports) {
                 apiKey: apiKeyInput.value,
             });
         };
+        formElement.appendChild(databaseURLlabel);
         formElement.appendChild(databaseURLInput);
+        formElement.appendChild(apiKeyLabel);
         formElement.appendChild(apiKeyInput);
         formElement.appendChild(submitButton);
         (_a = document.getElementById('config-container')) === null || _a === void 0 ? void 0 : _a.appendChild(formElement);
@@ -298,16 +316,6 @@ var save_link_chrome_extension = (function (exports) {
         }
         renderSettingsSection({ databaseURL, apiKey });
     }));
-
-    function getCurrentTab() {
-        return __awaiter(this, void 0, void 0, function* () {
-            let [tab] = yield chrome.tabs.query({
-                active: true,
-                lastFocusedWindow: true,
-            });
-            return tab;
-        });
-    }
 
     exports.getBookmarks = getBookmarks;
     exports.getCurrentTab = getCurrentTab;

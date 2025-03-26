@@ -84,10 +84,17 @@ function renderConfigForm(
   const formElement = document.createElement('form');
   formElement.id = 'config-form';
   formElement.className = 'config-form';
+  const databaseURLlabel = document.createElement('label');
+  const apiKeyLabel = document.createElement('label');
+
   const databaseURLInput = document.createElement('input');
   const apiKeyInput = document.createElement('input');
   const submitButton = document.createElement('button');
 
+  databaseURLlabel.textContent = 'Database URL';
+  apiKeyLabel.textContent = 'API Key';
+  databaseURLlabel.htmlFor = 'database-url-input';
+  apiKeyLabel.htmlFor = 'api-key-input';
   databaseURLInput.id = 'database-url-input';
   databaseURLInput.name = 'database-url-input';
   databaseURLInput.placeholder = 'Database URL';
@@ -106,8 +113,9 @@ function renderConfigForm(
       apiKey: apiKeyInput.value,
     });
   };
-
+  formElement.appendChild(databaseURLlabel);
   formElement.appendChild(databaseURLInput);
+  formElement.appendChild(apiKeyLabel);
   formElement.appendChild(apiKeyInput);
   formElement.appendChild(submitButton);
 
