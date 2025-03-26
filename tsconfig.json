@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./scripts",
+    "rootDirs": ["./scripts", "./types"],
     "module": "ESNext",
     "target": "ES6",
     "moduleResolution": "Node",

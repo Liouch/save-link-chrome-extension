@@ -33,15 +33,6 @@ var save_link_chrome_extension = (function (exports) {
         return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
     };
 
-    function getCurrentTab() {
-        return __awaiter(this, void 0, void 0, function* () {
-            let [tab] = yield chrome.tabs.query({
-                active: true,
-                lastFocusedWindow: true,
-            });
-            return tab;
-        });
-    }
     // Methods to persist and remove data in the local storage
     function getPersistedDatabaseURL() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -91,19 +82,23 @@ var save_link_chrome_extension = (function (exports) {
             yield chrome.storage.local.set({ apiKey });
         });
     }
-    function setPersistedBookmarks(bookmarks) {
+    function setPersistedBookmarks(bookmarkResponse) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield chrome.storage.local.set({ bookmarks });
+            yield chrome.storage.local.set({ bookmarks: bookmarkResponse });
         });
     }
+
     // Method to fetch bookmarks from the API
     function getBookmarks() {
         return __awaiter(this, void 0, void 0, function* () {
-            const response = yield fetch('https://api.jsonbin.io/v3/b/67e14d988561e97a50f1d9b1', {
+            var _a, _b;
+            const url = (_a = (yield getPersistedDatabaseURL())) !== null && _a !== void 0 ? _a : '';
+            const apiKey = (_b = (yield getPersistedAPIKey())) !== null && _b !== void 0 ? _b : '';
+            const response = yield fetch(url, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-Access-Key': '$2a$10$0kgq1M4B.h1J1LX6EUzhjOBRT.6tkG1CvIWBiEmHhPNhuWNRSrhum', // TODO: Use chrome storage to store the key
+                    'X-Access-Key': apiKey,
                 },
             });
             if (!response.ok) {
@@ -117,18 +112,19 @@ var save_link_chrome_extension = (function (exports) {
     // Methods to add and remove bookmarks
     function handleAddBookmark(tab) {
         return __awaiter(this, void 0, void 0, function* () {
-            const url = yield getPersistedDatabaseURL();
-            const apiKey = yield getPersistedAPIKey();
+            var _a, _b, _c, _d;
+            const url = (_a = (yield getPersistedDatabaseURL())) !== null && _a !== void 0 ? _a : '';
+            const apiKey = (_b = (yield getPersistedAPIKey())) !== null && _b !== void 0 ? _b : '';
             const bookmarks = yield getPersistedBookmarks();
             const newBookmark = {
-                id: bookmarks.record.bookmarks.length + 1,
+                id: ((_c = bookmarks === null || bookmarks === void 0 ? void 0 : bookmarks.record.bookmarks.length) !== null && _c !== void 0 ? _c : 0) + 1,
                 title: tab.title,
                 url: tab.url,
                 tags: [],
                 createdAt: new Date().toISOString(),
             };
             const body = JSON.stringify({
-                bookmarks: [...bookmarks.record.bookmarks, newBookmark],
+                bookmarks: [...((_d = bookmarks === null || bookmarks === void 0 ? void 0 : bookmarks.record.bookmarks) !== null && _d !== void 0 ? _d : []), newBookmark],
             });
             const response = yield fetch(url, {
                 method: 'PUT',
@@ -149,10 +145,11 @@ var save_link_chrome_extension = (function (exports) {
     }
     function handleRemoveBookmark(tab) {
         return __awaiter(this, void 0, void 0, function* () {
-            const url = yield getPersistedDatabaseURL();
-            const apiKey = yield getPersistedAPIKey();
+            var _a, _b;
+            const url = (_a = (yield getPersistedDatabaseURL())) !== null && _a !== void 0 ? _a : '';
+            const apiKey = (_b = (yield getPersistedAPIKey())) !== null && _b !== void 0 ? _b : '';
             const bookmarks = yield getPersistedBookmarks();
-            const filteredBookmarks = bookmarks.record.bookmarks.filter((bookmark) => bookmark.url !== tab.url);
+            const filteredBookmarks = bookmarks === null || bookmarks === void 0 ? void 0 : bookmarks.record.bookmarks.filter((bookmark) => bookmark.url !== tab.url);
             const body = JSON.stringify({
                 bookmarks: filteredBookmarks,
             });
@@ -194,7 +191,7 @@ var save_link_chrome_extension = (function (exports) {
             bookmarkTitleSpan.textContent = (_a = tab === null || tab === void 0 ? void 0 : tab.title) !== null && _a !== void 0 ? _a : null;
             // Check if url is already bookmarked
             const bookmarks = yield getPersistedBookmarks();
-            const isBookmarked = bookmarks.record.bookmarks.some((bookmark) => bookmark.url === (tab === null || tab === void 0 ? void 0 : tab.url));
+            const isBookmarked = bookmarks === null || bookmarks === void 0 ? void 0 : bookmarks.record.bookmarks.some((bookmark) => bookmark.url === (tab === null || tab === void 0 ? void 0 : tab.url));
             // Set the action button of the current tab
             bookmarkActionButon.textContent = isBookmarked ? 'Remove' : 'Add';
             bookmarkActionButon.onclick = () => __awaiter(this, void 0, void 0, function* () {
@@ -301,6 +298,16 @@ var save_link_chrome_extension = (function (exports) {
         }
         renderSettingsSection({ databaseURL, apiKey });
     }));
+
+    function getCurrentTab() {
+        return __awaiter(this, void 0, void 0, function* () {
+            let [tab] = yield chrome.tabs.query({
+                active: true,
+                lastFocusedWindow: true,
+            });
+            return tab;
+        });
+    }
 
     exports.getBookmarks = getBookmarks;
     exports.getCurrentTab = getCurrentTab;

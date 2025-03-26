@@ -1,13 +1,17 @@
+import { getCurrentTab } from './tabs';
+
 import {
-  getCurrentTab,
-  getPersistedDatabaseURL,
-  getPersistedAPIKey,
   handleAddBookmark,
-  getBookmarks,
-  getPersistedBookmarks,
-  setPersistedBookmarks,
   handleRemoveBookmark,
-} from './utils.js';
+  getBookmarks,
+} from './actions';
+
+import {
+  getPersistedBookmarks,
+  getPersistedAPIKey,
+  getPersistedDatabaseURL,
+  setPersistedBookmarks,
+} from './storage';
 
 const favIconFallback = '/images/icon48.png';
 
@@ -23,7 +27,6 @@ async function renderCurrentTabBookmark() {
   const tab = await getCurrentTab();
 
   // Set the favicon of the current tab
-
   bookmarkFavIconElement.src = tab?.favIconUrl
     ? tab.favIconUrl
     : favIconFallback;
@@ -35,7 +38,7 @@ async function renderCurrentTabBookmark() {
 
   // Check if url is already bookmarked
   const bookmarks = await getPersistedBookmarks();
-  const isBookmarked = bookmarks.record.bookmarks.some(
+  const isBookmarked = bookmarks?.record.bookmarks.some(
     (bookmark: { url: string }) => bookmark.url === tab?.url
   );
 
