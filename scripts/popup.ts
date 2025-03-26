@@ -9,7 +9,7 @@ import {
   handleRemoveBookmark,
 } from './utils.js';
 
-const favIconFallback = '/images/icon.png';
+const favIconFallback = '/images/icon48.png';
 
 async function renderCurrentTabBookmark() {
   const bookmarkElement = document.getElementById('bookmark-element-info');
@@ -23,14 +23,16 @@ async function renderCurrentTabBookmark() {
   const tab = await getCurrentTab();
 
   // Set the favicon of the current tab
-  bookmarkFavIconElement.src = tab?.favIconUrl ?? favIconFallback;
+
+  bookmarkFavIconElement.src = tab?.favIconUrl
+    ? tab.favIconUrl
+    : favIconFallback;
   bookmarkFavIconElement.width = 16;
   bookmarkFavIconElement.height = 16;
 
   // Set the title of the current tab
   bookmarkTitleSpan.textContent = tab?.title ?? null;
 
-  console.log(tab);
   // Check if url is already bookmarked
   const bookmarks = await getPersistedBookmarks();
   const isBookmarked = bookmarks.record.bookmarks.some(

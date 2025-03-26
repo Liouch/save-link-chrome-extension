@@ -174,10 +174,10 @@ var save_link_chrome_extension = (function (exports) {
         });
     }
 
-    const favIconFallback = '/images/icon.png';
+    const favIconFallback = '/images/icon48.png';
     function renderCurrentTabBookmark() {
         return __awaiter(this, void 0, void 0, function* () {
-            var _a, _b;
+            var _a;
             const bookmarkElement = document.getElementById('bookmark-element-info');
             const bookmarkElementAction = document.getElementById('bookmark-element-action');
             const bookmarkFavIconElement = document.createElement('img');
@@ -185,12 +185,13 @@ var save_link_chrome_extension = (function (exports) {
             const bookmarkActionButon = document.createElement('button');
             const tab = yield getCurrentTab();
             // Set the favicon of the current tab
-            bookmarkFavIconElement.src = (_a = tab === null || tab === void 0 ? void 0 : tab.favIconUrl) !== null && _a !== void 0 ? _a : favIconFallback;
+            bookmarkFavIconElement.src = (tab === null || tab === void 0 ? void 0 : tab.favIconUrl)
+                ? tab.favIconUrl
+                : favIconFallback;
             bookmarkFavIconElement.width = 16;
             bookmarkFavIconElement.height = 16;
             // Set the title of the current tab
-            bookmarkTitleSpan.textContent = (_b = tab === null || tab === void 0 ? void 0 : tab.title) !== null && _b !== void 0 ? _b : null;
-            console.log(tab);
+            bookmarkTitleSpan.textContent = (_a = tab === null || tab === void 0 ? void 0 : tab.title) !== null && _a !== void 0 ? _a : null;
             // Check if url is already bookmarked
             const bookmarks = yield getPersistedBookmarks();
             const isBookmarked = bookmarks.record.bookmarks.some((bookmark) => bookmark.url === (tab === null || tab === void 0 ? void 0 : tab.url));
