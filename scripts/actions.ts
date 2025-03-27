@@ -4,7 +4,7 @@ import {
   getPersistedDatabaseURL,
   setPersistedBookmarks,
 } from './storage';
-import { BookmarkResponse } from './types';
+import { Bookmark, BookmarkResponse } from './types';
 
 // Method to fetch bookmarks from the API
 export async function getBookmarks() {
@@ -30,12 +30,13 @@ export async function handleAddBookmark(tab: chrome.tabs.Tab) {
   const url = (await getPersistedDatabaseURL()) ?? '';
   const apiKey = (await getPersistedAPIKey()) ?? '';
   const bookmarks = await getPersistedBookmarks();
-  const newBookmark = {
+  const newBookmark: Bookmark = {
     id: (bookmarks?.record.bookmarks.length ?? 0) + 1,
-    title: tab.title,
-    url: tab.url,
+    title: tab.title ?? '',
+    url: tab.url ?? '',
     tags: [],
     createdAt: new Date().toISOString(),
+    favIconURL: tab.favIconUrl ?? '',
   };
 
   const body = JSON.stringify({

@@ -4,6 +4,7 @@ export type Bookmark = {
   url: string;
   tags: Array<string>;
   createdAt: string;
+  favIconURL: string;
 };
 
 export type BookmarkResponse = {

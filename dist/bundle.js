@@ -112,19 +112,20 @@ var save_link_chrome_extension = (function (exports) {
     // Methods to add and remove bookmarks
     function handleAddBookmark(tab) {
         return __awaiter(this, void 0, void 0, function* () {
-            var _a, _b, _c, _d;
+            var _a, _b, _c, _d, _e, _f, _g;
             const url = (_a = (yield getPersistedDatabaseURL())) !== null && _a !== void 0 ? _a : '';
             const apiKey = (_b = (yield getPersistedAPIKey())) !== null && _b !== void 0 ? _b : '';
             const bookmarks = yield getPersistedBookmarks();
             const newBookmark = {
                 id: ((_c = bookmarks === null || bookmarks === void 0 ? void 0 : bookmarks.record.bookmarks.length) !== null && _c !== void 0 ? _c : 0) + 1,
-                title: tab.title,
-                url: tab.url,
+                title: (_d = tab.title) !== null && _d !== void 0 ? _d : '',
+                url: (_e = tab.url) !== null && _e !== void 0 ? _e : '',
                 tags: [],
                 createdAt: new Date().toISOString(),
+                favIconURL: (_f = tab.favIconUrl) !== null && _f !== void 0 ? _f : '',
             };
             const body = JSON.stringify({
-                bookmarks: [...((_d = bookmarks === null || bookmarks === void 0 ? void 0 : bookmarks.record.bookmarks) !== null && _d !== void 0 ? _d : []), newBookmark],
+                bookmarks: [...((_g = bookmarks === null || bookmarks === void 0 ? void 0 : bookmarks.record.bookmarks) !== null && _g !== void 0 ? _g : []), newBookmark],
             });
             const response = yield fetch(url, {
                 method: 'PUT',
