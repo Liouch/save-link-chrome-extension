@@ -2,11 +2,17 @@
 
 Save and manage bookmarks effortlessly using a Chrome Extension with JSONBin as the backend.
 
+![Save link screenshot](./images//Save%20link%20chrome%20extension%20screenshot.png)
+
 ## 🚀 Overview
 
 This Chrome extension allows users to **save and remove bookmarks**, storing them in a **JSON file hosted on [JSONBin.io](https://jsonbin.io/)**.
 
 The extension does **not** store any data itself; instead, it uses **Chrome's local storage** to persist the API key and database URL for accessing JSONBin.
+
+## 🎯 Purpose
+
+I created this extension to make bookmark management seamless across different devices. By saving bookmarks to JSONBin, I can easily retrieve them on my personal website/portfolio, enabling quick access to saved links from anywhere.
 
 ## 🔧 Features
 
@@ -17,10 +23,11 @@ The extension does **not** store any data itself; instead, it uses **Chrome's lo
 
 ## 🛠️ Technologies Used
 
-- **TypeScript** – Ensures better code maintainability
+- **JavaScript/TypeScript** – Ensures better code maintainability
 - **Chrome Extensions API** – Used for interacting with tabs and storage
 - **JSONBin.io** – Acts as a simple cloud-based database for storing bookmarks
 - **HTML/CSS** – For the extension’s popup UI
+- **Rollup** - Used to bundle and generate optimized `dist` files
 
 ## 💡 Why I Chose JSONBin
 
@@ -39,14 +46,16 @@ Feel free to explore other database options, but be aware that this will require
 ## 📦 Installation
 
 1. **Clone the repository**
-   ```sh
+
+```sh
    git clone https://github.com/Liouch/save-link-chrome-extension.git
    cd save-link-chrome-extension
-   ```
+```
+
 2. **Install dependencies**
 
 ```sh
-npm instal
+npm install
 ```
 
 3. **Build the extension**
@@ -57,7 +66,7 @@ npm run build
 
 4. **Load the extension in Chrome**
    - Open **Chrome** and go to chrome://extensions/
-   - Enable **Developer Mode** (top-right corder)
+   - Enable **Developer Mode** (top-right corner)
    - Click **Load unpacked** and select the dist/ folder
 
 ## 🔑 Setup API Key & Database URL
@@ -88,4 +97,4 @@ For questions, suggestions, or collaboration, feel free to reach out:
 
 ## 📜 License
 
-This project is licensed under the **MIT License** – see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License** – see the [LICENSE](/license.txt) file for details.
