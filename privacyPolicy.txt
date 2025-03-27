@@ -1,0 +1,52 @@
+Privacy Policy for Save Link Chrome Extension
+
+1. Introduction
+
+Save Link Chrome Extension ("the Extension") is designed to help users save and manage bookmarks using JSONBin.io as a backend. This Privacy Policy outlines what data we collect, how we use it, and your rights regarding your data.
+
+2. Data Collection
+
+The Extension does not collect any personal information such as names, email addresses, or IP addresses. The only data stored includes:
+
+Bookmarks (URLs): Stored in the user’s JSONBin.io account.
+
+API Key & Database URL: Stored in Chrome's Local Storage to allow interaction with JSONBin.
+
+3. Data Storage
+
+Bookmarks are stored in the user's personal JSONBin.io account.
+
+API Key & Database URL are stored locally in the user's browser using Chrome Local Storage.
+
+4. Data Usage
+
+The data collected is only used for saving and removing bookmarks. The Extension does not process or analyze data beyond these functions.
+
+5. Data Sharing
+
+The Extension does not share any user data with third parties other than JSONBin.io.
+
+JSONBin.io stores bookmarks and may have access to the stored data based on their own privacy policies and terms of service.
+
+6. User Control
+
+Users have full control over their stored data:
+
+Deleting Bookmarks: Users can delete bookmarks at any time from the Extension.
+
+Resetting API Keys: Users can reset or remove their API key and database URL from Chrome Local Storage at any time.
+
+7. Security Measures
+
+API keys are stored in Chrome Local Storage without encryption.
+
+The Extension does not include tracking, analytics, or external monitoring tools.
+
+8. Changes to this Policy
+
+We may update this Privacy Policy from time to time. Any changes will be reflected in this document.
+
+9. Contact Information
+
+For any questions or concerns about this Privacy Policy, please contact:
+📧 Email: liou.wang.it@gmail.com
