@@ -1,6 +1,6 @@
 {
   "name": "Save link extension",
-  "description": "Save link extension using json file",
+  "description": "Save active tab url, title, favIconUrl and date to JSON file stored in jsonbin.io using Chrome Extension",
   "version": "1.0",
   "manifest_version": 3,
   "action": {
