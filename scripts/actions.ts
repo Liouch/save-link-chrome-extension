@@ -31,7 +31,7 @@ export async function handleAddBookmark(tab: chrome.tabs.Tab) {
   const apiKey = (await getPersistedAPIKey()) ?? '';
   const bookmarks = await getPersistedBookmarks();
   const newBookmark: Bookmark = {
-    id: (bookmarks?.record.bookmarks.length ?? 0) + 1,
+    id: (bookmarks?.record.bookmarks.at(-1)?.id ?? 0) + 1,
     title: tab.title ?? '',
     url: tab.url ?? '',
     tags: [],
